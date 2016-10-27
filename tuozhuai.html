@@ -1,0 +1,127 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>标题</title>
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<style>
+	*{
+		margin:0;
+		padding:0;
+	}
+	div{
+		width: 1002px;
+		height: 702px;
+		margin:20px auto;
+	}
+		canvas{
+			width: 1000px;
+			height: 700px;
+			border: 1px solid #000;
+		}
+	</style>
+</head>
+<body>
+<div>
+	<canvas width="1000px" height="700px"></canvas>
+</div>
+	<script>
+	var cvs=document.getElementsByTagName('canvas')[0];
+	var box=document.getElementsByTagName('div')[0];
+	var x;
+	var y;
+	var arr1=[];
+	var arr2=[];
+	var ctx=cvs.getContext("2d");
+	cvs.onmousedown=function(ev){
+		ctx.clearRect(0,0,10000,10000);
+		arr1=[];
+		arr2=[];
+		var ev=ev||window.event;
+		ctx.beginPath();
+			ctx.moveTo(ev.clientX-cvs.offsetLeft,ev.clientY-cvs.offsetTop);
+			arr1.unshift(ev.clientX-cvs.offsetLeft);
+			arr2.unshift(ev.clientY-cvs.offsetTop);
+		cvs.onmousemove=function(ev){
+			var ev=ev||window.event;
+			x=ev.offsetX;
+			y=ev.offsetY;
+
+			ctx.lineTo(x,y);
+			ctx.lineWidth=6;
+			arr1.unshift(x);
+			arr2.unshift(y);
+
+			var gradient=ctx.createLinearGradient(0,0,cvs.width,0);
+			gradient.addColorStop("0","red");
+			gradient.addColorStop("0.2","orange");
+			gradient.addColorStop("0.4","yellow");
+			gradient.addColorStop("0.6","green");
+			gradient.addColorStop("0.8","blue");
+			gradient.addColorStop("1","violet");
+			ctx.strokeStyle=gradient;
+			ctx.stroke();
+
+			
+		}
+		var i=0;
+		cvs.onmouseup=function(){
+			cvs.onmousemove=null;
+
+			ctx.closePath();
+			ctx.beginPath();
+			ctx.moveTo(x,y);
+			ctx.lineWidth=16;
+			ctx.strokeStyle="#fff";
+			setInterval(function(){
+				i++;
+				if (i < arr1.length) {
+					ctx.lineTo(arr1[i],arr2[i])
+					ctx.stroke();
+				}
+			},10)
+			
+
+		}
+
+	}
+		// document.onmouseup=function(){
+		// 	document.onmousemove=null
+		// }
+		
+		
+	// ctx.beginPath();
+	// ctx.moveTo();
+	// ctx.lineTo();
+	// ctx.closePath();
+	// ctx.fillStyle;
+	// ctx.fill();
+	// ctx.lineWidth;
+	// ctx.strokeStyle;
+	// ctx.stroke();
+
+	// 矩形
+	// ctx.beginPath();
+	// ctx.moveTo(50,50);
+	// ctx.lineTo(250,50);
+	// ctx.lineTo(250,250);
+	// ctx.lineTo(50,250);
+	// ctx.lineTo(50,50);
+	// ctx.closePath();
+	// ctx.lineWidth=4;
+	// ctx.strokeStyle="red";
+	// ctx.stroke();
+	// ctx.fillStyle="green";
+	// ctx.fill();
+
+	//填充举行
+	// ctx.beginPath();
+	// ctx.fillStyle="green";
+	// ctx.fillRect(100,100,60,30);
+	// ctx.closePath();
+
+	</script>
+</body>
+
+</html>
